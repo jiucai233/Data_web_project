@@ -14,9 +14,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 100px;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     margin:0;
 }
@@ -46,7 +45,7 @@ body {
 }
 .login-form input[type="submit"] {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #3700ff;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -54,7 +53,7 @@ body {
     transition: background-color 0.3s;
 }
 .login-form input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #5a00b3;
 }
 .register-link {
     margin-top: 20px;
