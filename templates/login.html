@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="sourse\login_signup.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/login_signup.css') }}">
 </head>
 <body>
-    <iframe id="navigation" src="navigation_bar.html" frameborder="0" scrolling="no"></iframe>
+    {% include 'navigation_bar.html' %}
     <div class="login-container">
         <h2>Login</h2>
         <form class="login-form" action="your_login_script.php" method="post">
@@ -16,7 +16,7 @@
             <input type="submit" value="Login">
         </form>
         <p></p>
-        <a href="signup.html" class="register-link">Sign Up</a>
+        <a href="{{ url_for('signup') }}" class="register-link">Sign Up</a>
     </div>
 </body>
 </html>
