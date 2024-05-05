@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="sourse\login_signup.css">
 </head>
 <body>
+    <iframe id="navigation" src="navigation_bar.html" frameborder="0" scrolling="no"></iframe>
     <div class="login-container">
         <h2>Login</h2>
-        <form class="login-form" action="" method="post">
+        <form class="login-form" action="your_login_script.php" method="post">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Login">
         </form>
-        <a href="signup.html" id="signup">Sign Up</a>
+        <p></p>
+        <a href="signup.html" class="register-link">Sign Up</a>
     </div>
 </body>
 </html>
