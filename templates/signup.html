@@ -10,13 +10,15 @@
     {% include 'navigation_bar.html' %}
     <div class="login-container">
         <h2>Sign Up</h2>
-        <form class="login-form" action="your_login_script.php" method="post">
+        <form class="login-form" action="/signup" method="post">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
             <input type="submit" value="Sign Up">
         </form>
-        <p></p>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
         <a href="{{ url_for('login') }}" class="register-link">Log In</a>
     </div>
 </body>

@@ -63,3 +63,7 @@ body {
 .register-link:hover {
     color: #374553;
 }
+p{
+    color: red;
+    font-size: 10px;
+}
