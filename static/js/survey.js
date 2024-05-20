@@ -45,3 +45,11 @@ function saveSurvey() {
     }
     console.log(surveyData);
 }
+// const addQuestionButton = document.getElementById('addQuestionButton');
+// const questionContainer = document.getElementById('questionContainer');
+
+// addQuestionButton.addEventListener('click', () => {
+//   const newQuestionBox = document.createElement('div'); // Create question box element
+//   newQuestionBox.innerHTML = '<label>Question:</label><input type="text">'; // Add question text input
+//   questionContainer.appendChild(newQuestionBox); // Append question box to container
+// });
