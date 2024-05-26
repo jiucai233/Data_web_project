@@ -5,7 +5,7 @@ app = Flask(__name__)
 import sqlite3
 
 def user_db_connection():
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('user.db')
     return conn
 
 
