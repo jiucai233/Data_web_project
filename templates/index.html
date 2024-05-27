@@ -4,22 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navigation_style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
     {% include 'navigation_bar.html' %}
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ url_for('static', filename='images/image1.jpg') }}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ url_for('static', filename='images/image2.jpg') }}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ url_for('static', filename='images/image3.jpg') }}" class="d-block w-100" alt="...">
           </div>
         </div>
       </div>
+      <h1>Questionnaire</h1>
+      <button id="random-btn">Random Question</button>
+      <button id="ordered-btn">Questions by Date</button>
+      <div id="questionnaire-container"></div>
+      <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
