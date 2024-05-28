@@ -1,0 +1,14 @@
+button{
+    width: 50%;
+    display: inline-block;
+    margin-right : 0px;
+    margin-left : 0px;
+    margin-bottom: 5px;
+    margin-top:0px;
+    
+}
+
+button:hover{
+    color:blueviolet;
+    
+}
