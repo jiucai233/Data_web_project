@@ -39,7 +39,7 @@ def save_survey():
     cursor.execute('INSERT INTO survey (user_id, survey_name, survey_lan, ques_id) VALUES (?, ?, ?, ?)', (user_id, survey_name, survey_lan, None))
     survey_id = cursor.lastrowid  # Get the last inserted survey ID
 
-    first_ques_id = None  # Placeholder for the first question ID
+    first_ques_id = 'q1'  # Placeholder for the first question ID
 
     for question in survey_data['questions']:
         cursor.execute('INSERT INTO question (ques_content, survey_id) VALUES (?, ?)', (question['ques_content'], survey_id))
