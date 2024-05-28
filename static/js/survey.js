@@ -21,6 +21,21 @@ function addQuestion() {
     questionContainer.appendChild(questionDiv);
 }
 
+function adjustWidth(el) {
+    // Create a temporary element to measure the width of the input content
+    const tempEl = document.createElement('span');
+    tempEl.style.visibility = 'hidden';
+    tempEl.style.position = 'absolute';
+    tempEl.style.whiteSpace = 'nowrap';
+    tempEl.innerText = el.value || el.placeholder;
+
+    document.body.appendChild(tempEl);
+    const width = tempEl.offsetWidth;
+    document.body.removeChild(tempEl);
+
+    // Set the width of the input element based on the temporary element's width
+    el.style.width = `${width + 10}px`;
+}
 function addOption(button, type) {
     const optionsContainer = button.parentElement.parentElement;
 
@@ -36,11 +51,11 @@ function addOption(button, type) {
             break;
         case 'multiple':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<input type="checkbox"> <div contenteditable="true" style="display:inline-block;">Click to edit the multiple-choice</div> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<input type="checkbox" name="multiple-choice"> <input type="text" placeholder="Click to edit the multiple-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
             break;
         case 'single':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<input type="radio" name="multiple-choice"> <div contenteditable="true" style="display:inline-block;">Click to edit the single-choice</div> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<input type="radio" name="single-choice"> <input type="text" placeholder="Click to edit the single-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
             break;
         case 'ranking':
             newOption = document.createElement('div');
