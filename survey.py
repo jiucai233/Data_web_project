@@ -20,9 +20,6 @@ def get_survey():
 def home():
     return render_template('survey.html')
 
-@app.route('/survey')
-def show_survey():
-    return render_template('survey.html')
 
 @app.route('/saveSurvey', methods=['POST'])
 def save_survey():

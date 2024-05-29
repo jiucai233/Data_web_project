@@ -1,14 +1,55 @@
-button{
-    width: 50%;
-    display: inline-block;
+
+.button{
+    width: 100%;
     margin-right : 0px;
     margin-left : 0px;
     margin-bottom: 5px;
     margin-top:0px;
-    
-}
+    align-self: center;
+    display: flex;
 
+}
+button{
+    width: 50%;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #ede7d0;
+    border: none;
+    /* border-radius: 20px; */
+    box-shadow: 0px 2px 1px black;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    display: inline;
+}
 button:hover{
     color:blueviolet;
+    background-color: #eae2c5;
+    box-shadow: 0px 8px 15px blueviolet;
     
+}
+h1{
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+.link-to-survey{
+    text-decoration: none;
+    color:black;
+    font-size:25px
+
+}
+.link-to-survey:hover{
+    color:blueviolet;
+    text-decoration-color: blueviolet;
+    text-decoration: underline;
+}
+#questionnaire-container{
+    display:flex;
+
 }
