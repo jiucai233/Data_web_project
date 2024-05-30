@@ -92,6 +92,7 @@ function saveSurvey() {
         const optionElements = question.querySelectorAll('.options > div');
 
         for (const optionElement of optionElements) {
+            // 获取选项的内容
             const input = optionElement.querySelector('input');
             const textarea = optionElement.querySelector('textarea');
             const editableDiv = optionElement.querySelector('div[contenteditable="true"]');
@@ -99,13 +100,13 @@ function saveSurvey() {
             let type = '';
 
             if (input) {
-                content = input.type === 'text' ? input.value : editableDiv.textContent;
+                content = input.type === 'text' ? input.value : '';
                 type = input.type === 'text' ? 'text' : 'choice';
             } else if (textarea) {
                 content = textarea.value;
                 type = 'paragraph';
             } else if (editableDiv) {
-                content = editableDiv.textContent;
+                content = editableDiv.textContent || ''; // 避免空指针异常
                 type = 'choice';
             }
 
@@ -121,7 +122,7 @@ function saveSurvey() {
         });
     }
 
-    fetch('/saveSurvey', {
+    fetch('/survey', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
