@@ -37,7 +37,7 @@ def get_random_questionnaires():
 @app.route('/api/questionnaires/ordered')
 def get_ordered_questionnaires():
     conn = get_db()
-    cursor = conn.execute('SELECT * FROM survey ORDER BY id ASC')
+    cursor = conn.execute('SELECT * FROM survey')
     ordered_questionnaires = cursor.fetchall()
     return jsonify(ordered_questionnaires)
 
