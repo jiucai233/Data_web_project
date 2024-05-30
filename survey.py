@@ -4,6 +4,7 @@ import sqlite3
 app = Flask(__name__)
 db_path = 'user.db'
 
+que_id=1
 def get_db_connection():
     conn = sqlite3.connect('user.db')
     return conn
