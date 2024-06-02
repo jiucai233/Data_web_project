@@ -239,3 +239,15 @@ section.clients-home .clients-logos .client-logos-repeater img {
   background-size: cover;
   color: #fff;
 }
+.developers-row {
+    display: flex;
+    justify-content: center; /* 中间对齐 */
+    align-items: center; /* 垂直对齐 */
+    gap: 20px; /* 元素之间的间距 */
+    flex-wrap: wrap; /* 如果屏幕宽度不足时，允许元素换行 */
+}
+
+.developer {
+    text-align: center; /* 文本居中 */
+    flex: 1 1 200px; /* 元素的灵活性，至少200px宽 */
+}
