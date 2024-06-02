@@ -12,6 +12,7 @@
 
     <h2>Questions:</h2>
     <form id="questionnaire-form">
+        <input type="hidden" name="survey_id" value="{{ survey[0] }}">
         {% for question, selections in question_details %}
             <div>
                 <h3>{{ question[1] }}</h3>
@@ -28,30 +29,6 @@
 
     <a href="/">Back to home</a>
 
-    <script>
-        document.getElementById('questionnaire-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Submission successful!');
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/questionnaire_detial.js') }}"></script>
 </body>
 </html>

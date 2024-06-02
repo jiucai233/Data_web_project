@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/questionnaires/random')
             .then(response => response.json())
             .then(data => {
-                questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]}</p>`).join(''); // Assuming 'survey_id' is the 1st column, 'survey_name' is the 2nd column, and 'user_name' is the 3rd column
+                questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]} <a href="/download_results/${q[0]}">Download Results</a></p>`).join('');
             })
             .catch(error => console.error('Error fetching random questionnaires:', error));
     });
@@ -16,16 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/questionnaires/ordered')
             .then(response => response.json())
             .then(data => {
-                questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]}</p>`).join(''); // Assuming 'survey_id' is the 1st column, 'survey_name' is the 2nd column, and 'user_name' is the 3rd column
+                questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]} <a href="/download_results/${q[0]}">Download Results</a></p>`).join('');
             })
             .catch(error => console.error('Error fetching ordered questionnaires:', error));
     });
 
-    // 默认按时间顺序加载问卷
     fetch('/api/questionnaires/ordered')
         .then(response => response.json())
         .then(data => {
-            questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]}</p>`).join(''); // Assuming 'survey_id' is the 1st column, 'survey_name' is the 2nd column, and 'user_name' is the 3rd column
+            questionnaireContainer.innerHTML = data.map(q => `<p><a href="/questionnaire/${q[0]}">${q[1]}</a> by ${q[2]} <a href="/download_results/${q[0]}">Download Results</a></p>`).join('');
         })
         .catch(error => console.error('Error fetching default ordered questionnaires:', error));
 });
