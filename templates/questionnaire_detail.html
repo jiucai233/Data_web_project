@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ survey[0] }}</title>
+    <title>{{ survey.survey_name }}</title>
 </head>
 <body>
-    <h1>{{ survey[0] }}</h1> <!-- survey_name -->
-    <p>Language: {{ survey[1] }}</p> <!-- survey_lan -->
-    <p>Author: {{ survey[2] }}</p> <!-- user_name -->
+    <h1>{{ survey.survey_name }}</h1> <!-- survey_name -->
+    <p>Language: {{ survey.survey_lan }}</p> <!-- survey_lan -->
+    <p>Author: {{ survey.user_id }}</p> <!-- user_name -->
 
     <h2>Questions:</h2>
     <form id="questionnaire-form">
@@ -17,11 +16,16 @@
             <div>
                 <h3>{{ question[1] }}</h3>
                 {% for selection in selections %}
-                    <div>
-                        <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
-                        <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                    </div>
-                {% endfor %}
+            <div>
+                {% if selection[2] == 'radio' %}
+                    <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
+                    <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                {% elif selection[2] == 'checkbox' %}
+                    <input type="checkbox" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
+                    <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                {% endif %}
+            </div>
+        {% endfor %}
             </div>
         {% endfor %}
         <button type="submit">Submit</button>
@@ -29,6 +33,6 @@
 
     <a href="/">Back to home</a>
 
-    <script src="{{ url_for('static', filename='js/questionnaire_detial.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/questionnaire_detail.js') }}"></script>
 </body>
 </html>
