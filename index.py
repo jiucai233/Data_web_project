@@ -147,6 +147,10 @@ def survey():
         return jsonify({'message': 'Survey data saved successfully.'})
     else:
         return render_template('survey.html')
+    
+@app.route('/aboutus')
+def abtus():
+    return render_template('abtus.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
