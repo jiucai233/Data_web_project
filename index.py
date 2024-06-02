@@ -29,7 +29,7 @@ def index():
 @app.route('/api/questionnaires/random')
 def get_random_questionnaires():
     conn = get_db()
-    cursor = conn.execute('SELECT * FROM survey')
+    cursor = conn.execute('SELECT survey.survey_id, survey.survey_name, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id')
     questionnaires = cursor.fetchall()
     random_questionnaires = random.sample(questionnaires, len(questionnaires))
     return jsonify(random_questionnaires)
@@ -37,17 +37,27 @@ def get_random_questionnaires():
 @app.route('/api/questionnaires/ordered')
 def get_ordered_questionnaires():
     conn = get_db()
-    cursor = conn.execute('SELECT * FROM survey')
+    cursor = conn.execute('SELECT survey.survey_id, survey.survey_name, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id ORDER BY survey.survey_id ASC')
     ordered_questionnaires = cursor.fetchall()
     return jsonify(ordered_questionnaires)
 
 @app.route('/questionnaire/<int:id>')
 def questionnaire_detail(id):
     conn = get_db()
-    cursor = conn.execute('SELECT * FROM questions WHERE survey_id = ?', (id,))
-    questionnaire = cursor.fetchone()
-    if questionnaire:
-        return render_template('questionnaire_detail.html', questionnaire=questionnaire)
+    cursor = conn.execute('SELECT survey.survey_name, survey.survey_lan, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id WHERE survey.survey_id = ?', (id,))
+    survey = cursor.fetchone()
+    
+    cursor = conn.execute('SELECT ques_id, ques_content FROM question WHERE survey_id = ?', (id,))
+    questions = cursor.fetchall()
+    
+    question_details = []
+    for question in questions:
+        cursor = conn.execute('SELECT sel_id, content FROM selection WHERE ques_id = ?', (question[0],))
+        selections = cursor.fetchall()
+        question_details.append((question, selections))
+    
+    if survey:
+        return render_template('questionnaire_detail.html', survey=survey, question_details=question_details)
     else:
         return "Questionnaire not found", 404
 

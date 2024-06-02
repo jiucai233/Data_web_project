@@ -3,11 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionnaire Detail</title>
+    <title>{{ survey[0] }}</title>
 </head>
 <body>
-    <h1>{{ questionnaire[2] }}</h1>
-    <p>Language: {{ questionnaire[3] }}</p>
+    <h1>{{ survey[0] }}</h1> <!-- survey_name -->
+    <p>Language: {{ survey[1] }}</p> <!-- survey_lan -->
+    <p>Author: {{ survey[2] }}</p> <!-- user_name -->
+
+    <h2>Questions:</h2>
+    <form id="questionnaire-form">
+        {% for question, selections in question_details %}
+            <div>
+                <h3>{{ question[1] }}</h3>
+                {% for selection in selections %}
+                    <div>
+                        <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
+                        <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+
     <a href="/">Back to home</a>
+
+    <script>
+        document.getElementById('questionnaire-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Submission successful!');
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
