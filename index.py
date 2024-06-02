@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template,request,send_file
+from flask import Flask, jsonify, render_template,request,send_file,make_response
 import sqlite3
 import random
 import csv
@@ -20,10 +20,11 @@ def get_survey():
     conn.close()
     return survey
 
-def get_db():
-    db = sqlite3.connect('user.db')
-    return db
 
+def get_db():
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    return conn
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -31,48 +32,56 @@ def index():
 @app.route('/api/questionnaires/random')
 def get_random_questionnaires():
     conn = get_db()
-    cursor = conn.execute('SELECT survey.survey_id, survey.survey_name, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id')
+    cursor = conn.execute('SELECT * FROM survey')
     questionnaires = cursor.fetchall()
     random_questionnaires = random.sample(questionnaires, len(questionnaires))
-    return jsonify(random_questionnaires)
+    response = make_response(jsonify([dict(ix) for ix in random_questionnaires]))
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
 
 @app.route('/api/questionnaires/ordered')
 def get_ordered_questionnaires():
     conn = get_db()
-    cursor = conn.execute('SELECT survey.survey_id, survey.survey_name, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id ORDER BY survey.survey_id ASC')
+    cursor = conn.execute('SELECT * FROM survey ORDER BY survey_id DESC')  # 使用正确的列名
     ordered_questionnaires = cursor.fetchall()
-    return jsonify(ordered_questionnaires)
+    response = make_response(jsonify([dict(ix) for ix in ordered_questionnaires]))
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
 
 @app.route('/questionnaire/<int:id>')
 def questionnaire_detail(id):
     conn = get_db()
-    cursor = conn.execute('SELECT survey.survey_name, survey.survey_lan, user.user_name FROM survey JOIN user ON survey.user_id = user.user_id WHERE survey.survey_id = ?', (id,))
+    cursor = conn.execute('SELECT * FROM survey WHERE survey_id = ?', (id,))
     survey = cursor.fetchone()
-    
     cursor = conn.execute('SELECT ques_id, ques_content FROM question WHERE survey_id = ?', (id,))
     questions = cursor.fetchall()
-    
+
     question_details = []
     for question in questions:
-        cursor = conn.execute('SELECT sel_id, content FROM selection WHERE ques_id = ?', (question[0],))
+        cursor = conn.execute('SELECT sel_id, content, type FROM selection WHERE ques_id = ? AND survey_id = ?', (question[0], id,))
         selections = cursor.fetchall()
         question_details.append((question, selections))
-    
+        
+
+
     if survey:
         return render_template('questionnaire_detail.html', survey=survey, question_details=question_details)
     else:
         return "Questionnaire not found", 404
-    
+
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.json
     conn = get_db()
     cursor = conn.cursor()
     for key, value in data.items():
-        ques_id = int(key.replace('question', ''))
-        cursor.execute('INSERT INTO result (survey_id, ques_id, ques_result) VALUES (?, ?, ?)', (data['survey_id'], ques_id, value))
+        if key != 'survey_id':  # Skip survey_id as it's not a question
+            ques_id = int(key.replace('question', ''))
+            cursor.execute('INSERT INTO result (survey_id, ques_id, ques_result) VALUES (?, ?, ?)', (data['survey_id'], ques_id, value))
     conn.commit()
-    return jsonify({"status": "success"})
+    response = jsonify({"status": "success"})
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
 
 @app.route('/download_results/<int:survey_id>')
 def download_results(survey_id):
@@ -95,7 +104,10 @@ def download_results(survey_id):
         writer.writerow(row)
 
     output.seek(0)
-    return send_file(output, mimetype='text/csv', attachment_filename=f'survey_{survey_id}_results.csv', as_attachment=True)
+    response = send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv; charset=utf-8', as_attachment=True, download_name=f'survey_{survey_id}_results.csv')
+    response.headers['Content-Disposition'] = f'attachment; filename=survey_{survey_id}_results.csv'
+    response.headers['Content-Type'] = 'text/csv; charset=utf-8'
+    return response
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
