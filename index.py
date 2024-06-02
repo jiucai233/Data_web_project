@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, render_template,request
+from flask import Flask, jsonify, render_template,request,send_file
 import sqlite3
 import random
+import csv
+import io
 
 app = Flask(__name__)
 db_path='user.db'
@@ -60,6 +62,40 @@ def questionnaire_detail(id):
         return render_template('questionnaire_detail.html', survey=survey, question_details=question_details)
     else:
         return "Questionnaire not found", 404
+    
+@app.route('/submit', methods=['POST'])
+def submit():
+    data = request.json
+    conn = get_db()
+    cursor = conn.cursor()
+    for key, value in data.items():
+        ques_id = int(key.replace('question', ''))
+        cursor.execute('INSERT INTO result (survey_id, ques_id, ques_result) VALUES (?, ?, ?)', (data['survey_id'], ques_id, value))
+    conn.commit()
+    return jsonify({"status": "success"})
+
+@app.route('/download_results/<int:survey_id>')
+def download_results(survey_id):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT question.ques_content, selection.content AS selected_option
+        FROM result
+        JOIN question ON result.ques_id = question.ques_id
+        JOIN selection ON result.ques_result = selection.sel_id
+        WHERE result.survey_id = ?
+    ''', (survey_id,))
+    results = cursor.fetchall()
+
+    # Create a CSV file in memory
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Question', 'Selected Option'])
+    for row in results:
+        writer.writerow(row)
+
+    output.seek(0)
+    return send_file(output, mimetype='text/csv', attachment_filename=f'survey_{survey_id}_results.csv', as_attachment=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
