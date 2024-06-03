@@ -7,14 +7,14 @@ function addQuestion() {
     questionDiv.className = 'question';
     questionDiv.innerHTML = `
         <h3>Question ${questionCount}</h3>
-        <textarea rows="2" cols="50" placeholder="Please input your question"></textarea>
+        <textarea rows="2" cols="50" class="shadow-input" placeholder="Please input your question"></textarea>
         <div class="options">
-            <div class="btn-group" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-primary" onclick="addOption(this, 'text')">Text</button>
-                <button type="button" class="btn btn-outline-primary" onclick="addOption(this, 'paragraph')">Paragraph</button>
-                <button type="button" class="btn btn-outline-primary" onclick="addOption(this, 'multiple')">Multiple Choice</button>
-                <button type="button" class="btn btn-outline-primary" onclick="addOption(this, 'single')">Single Choice</button>
-                <button type="button" class="btn btn-outline-primary" onclick="addOption(this, 'ranking')">Ranking</button>
+            <div class="button-container">
+                <button type="button" class="blue_button" onclick="addOption(this, 'text')">Text</button>
+                <button type="button" class="blue_button" onclick="addOption(this, 'paragraph')">Paragraph</button>
+                <button type="button" class="blue_button" onclick="addOption(this, 'multiple')">Multiple Choice</button>
+                <button type="button" class="blue_button" onclick="addOption(this, 'single')">Single Choice</button>
+                <button type="button" class="blue_button" onclick="addOption(this, 'ranking')">Ranking</button>
             </div>
         </div>
     `;
@@ -43,23 +43,23 @@ function addOption(button, type) {
     switch(type) {
         case 'text':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<input type="text" placeholder="Single text"> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<input type="text" class="shadow-input" placeholder="Single text"> <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         case 'paragraph':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<textarea rows="3" placeholder="Paragraph"></textarea> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<textarea rows="3" class="shadow-input" placeholder="Paragraph"></textarea> <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         case 'multiple':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<input type="checkbox" name="multiple-choice"> <input type="text" placeholder="Click to edit the multiple-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<input type="checkbox" name="multiple-choice"> <input type="text" class="shadow-input" placeholder="Click to edit the multiple-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         case 'single':
             newOption = document.createElement('div');
-            newOption.innerHTML = '<input type="radio" name="single-choice"> <input type="text" placeholder="Click to edit the single-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = '<input type="radio" name="single-choice"> <input type="text" class="shadow-input" placeholder="Click to edit the single-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         case 'ranking':
             newOption = document.createElement('div');
-            newOption.innerHTML = 'Ranking <button type="button" class="btn btn-danger" onclick="removeOption(this)">Delete</button>';
+            newOption.innerHTML = 'Ranking <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         default:
             break;
@@ -132,7 +132,9 @@ function saveSurvey() {
     .then(response => {
         if (response.ok) {
             console.log('Survey data saved successfully.');
-        } else {
+            alert("Survey data saved successfully！");
+        } 
+        else {
             console.error('Failed to save survey data.');
         }
     })

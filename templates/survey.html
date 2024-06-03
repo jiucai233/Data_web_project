@@ -10,18 +10,19 @@
 </head>
 <body>
     {% include 'navigation_bar.html' %}
-    <div id="editor"> 
+    <div id="editor" style="width: 1000px;"> 
         <h1>Survey Form</h1>
         <label for="survey-name">Survey Name:</label>
-        <input type="text" id="survey-name" placeholder="Enter survey name" />
+        <input type="text" id="survey-name" class="shadow-input" placeholder="Enter survey name" />
         <label for="survey-lan">Survey Language:</label>
-        <input type="text" id="survey-lan" placeholder="Enter survey language" />
+        <input type="text" id="survey-lan" class="shadow-input" placeholder="Enter survey language" />
         <h2>Survey Editor</h2>
-        <button type="button" class="btn btn-success" onclick="addQuestion()">ADD QUESTION</button>
+        <button type="button" class="green_button" onclick="addQuestion()">ADD QUESTION</button>
         <div id="questions-container">
             <!-- 问题列表将在此显示 -->
         </div>
-        <button type="button" class="btn btn-success" onclick="saveSurvey()">SAVE YOUR SURVEY</button>
+        <p> </p>
+        <button type="button" class="green_button" onclick="saveSurvey()">SAVE YOUR SURVEY</button>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
