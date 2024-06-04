@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, render_template,request,send_file,make_response
+from flask import Flask, jsonify, render_template,request,send_file,make_response, session, flash, redirect,url_for
 import sqlite3
 import random
 import csv
 import io
 
 app = Flask(__name__)
+app.secret_key = '1248higrpe9v'
 db_path='user.db'
 
 
@@ -25,6 +26,7 @@ def get_db():
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -85,7 +87,7 @@ def submit():
 
 @app.route('/download_results/<int:survey_id>')
 def download_results(survey_id):
-    conn = get_db()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
         SELECT question.ques_content, selection.content AS selected_option
@@ -116,12 +118,14 @@ def login():
         password = request.form['password']
         conn=get_db()
         cursor=conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+        cursor = cursor.execute("SELECT * FROM user WHERE user_name=? AND password=?", (username, password))
         user = cursor.fetchone()
         conn.close()
         
         if user:
-            return render_template('login.html', message="Log in successfully!")
+            session['username'] = username
+            return render_template('login.html', message = 'You were successfully logged in')
+            
         else:
             return render_template('login.html', message="The username or password is incorrect!")
     else:
@@ -134,9 +138,9 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        conn=get_db
+        conn=get_db()
         cursor=conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        cursor.execute("SELECT * FROM user WHERE user_name=?", (username,))
         existing_user = cursor.fetchone()
         
         if existing_user:
@@ -144,24 +148,30 @@ def signup():
             return render_template('signup.html', message="User name already exists, please select another user name!")
         else:
             if password == confirm_password:
-                cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+                cursor.execute("INSERT INTO user (user_name, password) VALUES (?, ?)", (username, password))
                 conn.commit()
                 conn.close()
-                return render_template('signup.html', message="Registration was successful!")
+                flash('You were successfully signed up')
+                return render_template('login.html')
             else:
                 conn.close()
                 return render_template('signup.html', message="The password and confirmation password do not match!")
         
     else:
         return render_template('signup.html')
+from flask import render_template, redirect, url_for, session
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return render_template('logout.html')
 
 @app.route('/survey', methods=['GET','POST'])
 def survey():
     if request.method == 'POST':
         survey_data = request.json
         survey_name = survey_data['survey_name']
-        survey_lan = survey_data['survey_lan']
-        user_id = 1  # Example user ID, replace with actual value
+        survey_lan = survey_data['survey_lan']  # Example user ID, replace with actual value
         ques_id=1
 
         # Connect to SQLite database
