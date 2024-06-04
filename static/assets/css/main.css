@@ -92,7 +92,7 @@ h6 {
 # Global Header
 --------------------------------------------------------------*/
 .header {
-  --background-color: #008374;
+  --background-color: #330066;
   --heading-color: #ffffff;
   color: var(--default-color);
   transition: all 0.5s;
