@@ -34,3 +34,9 @@
     padding: 20px;
     text-align: center;
 }
+.right-aligned {
+    position: absolute;
+    right: 10%; /* 距离右侧边缘的距离 */
+    top: 50%; /* 垂直居中 */
+    transform: translateY(-50%);
+}
