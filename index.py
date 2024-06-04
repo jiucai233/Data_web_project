@@ -121,10 +121,12 @@ def login():
         cursor = cursor.execute("SELECT * FROM user WHERE user_name=? AND password=?", (username, password))
         user = cursor.fetchone()
         conn.close()
-        
+        islogin = 0
         if user:
             session['username'] = username
-            return render_template('login.html', message = 'You were successfully logged in')
+            flash('You were successfully logged in')
+            islogin = 1
+            return render_template('login.html',islogin=islogin)
             
         else:
             return render_template('login.html', message="The username or password is incorrect!")
@@ -171,7 +173,8 @@ def survey():
     if request.method == 'POST':
         survey_data = request.json
         survey_name = survey_data['survey_name']
-        survey_lan = survey_data['survey_lan']  # Example user ID, replace with actual value
+        survey_lan = survey_data['survey_lan']
+        user_id = session["username",None]
         ques_id=1
 
         # Connect to SQLite database

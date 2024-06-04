@@ -49,6 +49,11 @@
                 </li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="{{ url_for('login')}}" ><img src="\static\image\login_icon.png" style="width: 25px; height: 25px;"></a></li>
+                {% if 'username' in session %}
+                    <li>
+                        <a href="{{ url_for('logout')}}">Log Out</a>
+                    </li>
+                {% endif %}
               </ul>
               <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

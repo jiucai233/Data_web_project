@@ -30,4 +30,12 @@
         <a href="{{ url_for('signup') }}" class="register-link">Sign Up</a>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var l = {{islogin}};
+        if (l == 1){
+            alert("succefully login!");
+        }
+});
+</script>
 </html>
