@@ -29,7 +29,7 @@
   --heading-color: #172a28;
 
   /* Accent Color - This is the main accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out. */
-  --accent-color: #008374;
+  --accent-color: #330066;
 
   /* Contrast Color - This is a color used for text when the background color is one of the heading, accent, or default colors. Its purpose is to ensure proper contrast and readability when placed over these more dominant colors. */
   --contrast-color: #ffffff;
@@ -68,13 +68,13 @@ body {
 }
 
 a {
-  color: var(--accent-color);
+  color: #306;
   text-decoration: none;
   transition: 0.3s;
 }
 
 a:hover {
-  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  color: color-mix(in srgb, #306, transparent 25%);
   text-decoration: none;
 }
 
@@ -101,7 +101,7 @@ h6 {
 }
 
 .header .topbar {
-  background-color: color-mix(in srgb, var(--accent-color) 90%, black 10%);
+  background-color: color-mix(in srgb, #306 90%, black 10%);
   height: 40px;
   padding: 0;
   font-size: 14px;
@@ -371,12 +371,12 @@ h6 {
     justify-content: center;
     border-radius: 50%;
     transition: 0.3s;
-    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    background-color: color-mix(in srgb, #306, transparent 90%);
   }
 
   .navmenu a i:hover,
   .navmenu a:focus i:hover {
-    background-color: var(--accent-color);
+    background-color: #306;
     color: var(--contrast-color);
   }
 
@@ -388,7 +388,7 @@ h6 {
 
   .navmenu .active i,
   .navmenu .active:focus i {
-    background-color: var(--accent-color);
+    background-color: #306;
     color: var(--contrast-color);
     transform: rotate(180deg);
   }
@@ -443,7 +443,7 @@ h6 {
 # Global Footer
 --------------------------------------------------------------*/
 .footer {
-  --background-color: var(--accent-color);
+  --background-color: #306;
   --default-color: #fff;
   --heading-color: #fff;
   color: var(--default-color);
@@ -578,7 +578,7 @@ h6 {
   top: calc(50% - 30px);
   left: calc(50% - 30px);
   border: 6px solid #ffffff;
-  border-color: var(--accent-color) transparent var(--accent-color) transparent;
+  border-color: #306 transparent #306 transparent;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -605,7 +605,7 @@ h6 {
   right: 15px;
   bottom: -15px;
   z-index: 99999;
-  background-color: var(--accent-color);
+  background-color: #306;
   width: 44px;
   height: 44px;
   border-radius: 50px;
@@ -619,7 +619,7 @@ h6 {
 }
 
 .scroll-top:hover {
-  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
+  background-color: color-mix(in srgb, #306, transparent 20%);
   color: var(--contrast-color);
 }
 
@@ -642,7 +642,7 @@ h6 {
 # Global Page Titles & Breadcrumbs
 --------------------------------------------------------------*/
 .page-title {
-  --background-color: var(--accent-color);
+  --background-color: #306;
   --default-color: #fff;
   --heading-color: #fff;
   color: var(--default-color);
@@ -736,7 +736,7 @@ section,
   display: block;
   width: 50px;
   height: 3px;
-  background: var(--accent-color);
+  background: #306;
   left: 0;
   right: 0;
   bottom: 0;
@@ -751,7 +751,7 @@ section,
 # Hero Section
 --------------------------------------------------------------*/
 .hero {
-  --background-color: var(--accent-color);
+  --background-color: #306;
   --default-color: #ffffff;
   --heading-color: #ffffff;
   width: 100%;
@@ -782,7 +782,7 @@ section,
 
 .hero .btn-get-started {
   color: var(--contrast-color);
-  background: var(--accent-color);
+  background: #306;
   font-family: var(--heading-font);
   font-weight: 500;
   font-size: 14px;
@@ -852,7 +852,7 @@ section,
   padding: 60px 30px;
   position: relative;
   overflow: hidden;
-  background: color-mix(in srgb, var(--accent-color), white 4%);
+  background: color-mix(in srgb, #306, white 4%);
   box-shadow: 0 0 29px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
@@ -884,7 +884,7 @@ section,
 }
 
 .hero .icon-box:hover {
-  background-color: color-mix(in srgb, var(--accent-color), white 10%);
+  background-color: color-mix(in srgb, #306, white 10%);
 }
 
 .hero .icon-box:hover .title a,
@@ -920,7 +920,7 @@ section,
   font-size: 20px;
   left: 0;
   top: -3px;
-  color: var(--accent-color);
+  color: #306;
 }
 
 .about .content p:last-child {
@@ -930,7 +930,7 @@ section,
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(var(--accent-color) 50%, color-mix(in srgb, var(--accent-color), transparent 75%) 52%);
+  background: radial-gradient(#306 50%, color-mix(in srgb, #306, transparent 75%) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -951,7 +951,7 @@ section,
   animation-timing-function: steps;
   opacity: 1;
   border-radius: 50%;
-  border: 5px solid color-mix(in srgb, var(--accent-color), transparent 30%);
+  border: 5px solid color-mix(in srgb, #306, transparent 30%);
   top: -15%;
   left: -15%;
   background: rgba(198, 16, 0, 0);
@@ -990,7 +990,7 @@ section,
 }
 
 .about .play-btn:hover:after {
-  border-left: 15px solid var(--accent-color);
+  border-left: 15px solid #306;
   transform: scale(20);
 }
 
@@ -1034,7 +1034,7 @@ section,
 
 .stats .stats-item i {
   font-size: 44px;
-  color: var(--accent-color);
+  color: #306;
   line-height: 0;
   margin-right: 15px;
 }
@@ -1114,7 +1114,7 @@ section,
   width: 94px;
   height: 94px;
   margin-bottom: 20px;
-  background: radial-gradient(var(--accent-color) 50%, color-mix(in srgb, var(--accent-color), transparent 60%) 52%);
+  background: radial-gradient(#306 50%, color-mix(in srgb, #306, transparent 60%) 52%);
   border-radius: 50%;
   display: inline-block;
   position: relative;
@@ -1133,7 +1133,7 @@ section,
   animation-timing-function: steps;
   opacity: 1;
   border-radius: 50%;
-  border: 5px solid color-mix(in srgb, var(--accent-color), transparent 20%);
+  border: 5px solid color-mix(in srgb, #306, transparent 20%);
   top: -15%;
   left: -15%;
   background: rgba(198, 16, 0, 0);
@@ -1172,7 +1172,7 @@ section,
 }
 
 .call-to-action .play-btn:hover:after {
-  border-left: 15px solid var(--accent-color);
+  border-left: 15px solid #306;
   transform: scale(20);
 }
 
@@ -1191,8 +1191,8 @@ section,
 }
 
 .call-to-action .cta-btn:hover {
-  background: var(--accent-color);
-  border: 2px solid var(--accent-color);
+  background: #306;
+  border: 2px solid #306;
 }
 
 @keyframes pulsate-btn {
@@ -1273,16 +1273,16 @@ section,
 }
 
 .services .service-item:hover .icon:before {
-  background: color-mix(in srgb, var(--accent-color), transparent 50%);
+  background: color-mix(in srgb, #306, transparent 50%);
 }
 
 .services .service-item:hover h3 {
-  border-color: color-mix(in srgb, var(--accent-color), transparent 10%);
+  border-color: color-mix(in srgb, #306, transparent 10%);
   color: var(--heading-color);
 }
 
 .services .service-item:hover .readmore {
-  color: var(--accent-color);
+  color: #306;
 }
 
 /*--------------------------------------------------------------
@@ -1326,7 +1326,7 @@ section,
 
 .testimonials .testimonial-item .quote-icon-left,
 .testimonials .testimonial-item .quote-icon-right {
-  color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  color: color-mix(in srgb, #306, transparent 50%);
   font-size: 26px;
   line-height: 0;
 }
@@ -1367,7 +1367,7 @@ section,
 }
 
 .testimonials .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--accent-color);
+  background-color: #306;
 }
 
 @media (max-width: 767px) {
@@ -1409,7 +1409,7 @@ section,
 
 .portfolio .portfolio-filters li:hover,
 .portfolio .portfolio-filters li.filter-active {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .portfolio .portfolio-filters li:first-child {
@@ -1459,7 +1459,7 @@ section,
 }
 
 .portfolio .portfolio-content .portfolio-info h4 a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .portfolio .portfolio-content .portfolio-info p {
@@ -1528,8 +1528,8 @@ section,
 }
 
 .team .member .social a:hover {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
+  color: #306;
+  border-color: #306;
 }
 
 .team .member .social i {
@@ -1567,7 +1567,7 @@ section,
   margin: 30px auto 20px auto;
   width: 70px;
   height: 70px;
-  background: var(--accent-color);
+  background: #306;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1589,7 +1589,7 @@ section,
   height: 86px;
   width: 86px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--accent-color), transparent 80%);
+  background: color-mix(in srgb, #306, transparent 80%);
   transition: all 0.3s ease-out 0s;
   transform: translateZ(-1px);
 }
@@ -1600,14 +1600,14 @@ section,
   height: 102px;
   width: 102px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  background: color-mix(in srgb, #306, transparent 90%);
   transition: all 0.3s ease-out 0s;
   transform: translateZ(-2px);
 }
 
 .pricing h4 {
   font-size: 48px;
-  color: var(--accent-color);
+  color: #306;
   font-weight: 700;
   font-family: var(--heading-font);
   margin-bottom: 25px;
@@ -1671,13 +1671,13 @@ section,
 }
 
 .pricing .buy-btn:hover {
-  background-color: var(--accent-color);
+  background-color: #306;
   color: var(--contrast-color);
 }
 
 .pricing .featured {
   z-index: 10;
-  border: 3px solid var(--accent-color);
+  border: 3px solid #306;
 }
 
 @media (min-width: 992px) {
@@ -1723,12 +1723,12 @@ section,
 }
 
 .faq .faq-container .faq-item h3 .num {
-  color: var(--accent-color);
+  color: #306;
   padding-right: 5px;
 }
 
 .faq .faq-container .faq-item h3:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .faq .faq-container .faq-item .faq-content {
@@ -1755,11 +1755,11 @@ section,
 }
 
 .faq .faq-container .faq-item .faq-toggle:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .faq .faq-container .faq-active h3 {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .faq .faq-container .faq-active .faq-content {
@@ -1771,7 +1771,7 @@ section,
 
 .faq .faq-container .faq-active .faq-toggle {
   transform: rotate(90deg);
-  color: var(--accent-color);
+  color: #306;
 }
 
 /*--------------------------------------------------------------
@@ -1810,7 +1810,7 @@ section,
 }
 
 .recent-posts .title a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .recent-posts .post-author-img {
@@ -1834,7 +1834,7 @@ section,
 # Contact Section
 --------------------------------------------------------------*/
 .contact .info-container {
-  background-color: var(--accent-color);
+  background-color: #306;
   height: 100%;
   padding: 20px;
 }
@@ -1882,7 +1882,7 @@ section,
 
 .contact .info-item:hover i {
   background: var(--contrast-color);
-  color: var(--accent-color);
+  color: #306;
 }
 
 .contact .php-email-form {
@@ -1927,7 +1927,7 @@ section,
   width: 24px;
   height: 24px;
   margin: 0 10px -6px 0;
-  border: 3px solid var(--accent-color);
+  border: 3px solid #306;
   border-top-color: var(--background-color);
   animation: animate-loading 1s linear infinite;
 }
@@ -1947,7 +1947,7 @@ section,
 .contact .php-email-form input[type=text]:focus,
 .contact .php-email-form input[type=email]:focus,
 .contact .php-email-form textarea:focus {
-  border-color: var(--accent-color);
+  border-color: #306;
 }
 
 .contact .php-email-form input[type=text]::placeholder,
@@ -1958,7 +1958,7 @@ section,
 
 .contact .php-email-form button[type=submit] {
   color: var(--contrast-color);
-  background: var(--accent-color);
+  background: #306;
   border: 0;
   padding: 10px 30px;
   transition: 0.4s;
@@ -1966,7 +1966,7 @@ section,
 }
 
 .contact .php-email-form button[type=submit]:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  background: color-mix(in srgb, #306, transparent 20%);
 }
 
 @keyframes animate-loading {
@@ -2015,7 +2015,7 @@ section,
 }
 
 .blog-posts .title a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .blog-posts .post-author-img {
@@ -2065,7 +2065,7 @@ section,
 
 .pagination-2 li.active,
 .pagination-2 li:hover {
-  background: var(--accent-color);
+  background: #306;
   color: var(--contrast-color);
 }
 
@@ -2134,7 +2134,7 @@ section,
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: var(--accent-color);
+  background-color: #306;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -2187,7 +2187,7 @@ section,
 }
 
 .blog-details .meta-bottom a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .blog-details .meta-bottom .cats {
@@ -2302,7 +2302,7 @@ section,
 }
 
 .blog-comments .comment h5 a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .blog-comments .comment h5 .reply {
@@ -2351,7 +2351,7 @@ section,
 
 .blog-comments .reply-form input:focus {
   box-shadow: none;
-  border-color: var(--accent-color);
+  border-color: #306;
 }
 
 .blog-comments .reply-form textarea {
@@ -2366,7 +2366,7 @@ section,
 
 .blog-comments .reply-form textarea:focus {
   box-shadow: none;
-  border-color: var(--accent-color);
+  border-color: #306;
 }
 
 .blog-comments .reply-form .form-group {
@@ -2377,13 +2377,13 @@ section,
   border-radius: 4px;
   padding: 10px 20px;
   border: 0;
-  background-color: var(--accent-color);
+  background-color: #306;
   color: var(--contrast-color);
 }
 
 .blog-comments .reply-form .btn-primary:hover {
   color: var(--contrast-color);
-  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
+  background-color: color-mix(in srgb, #306, transparent 20%);
 }
 
 /*--------------------------------------------------------------
@@ -2408,11 +2408,11 @@ section,
 .service-details .services-list a.active {
   color: var(--heading-color);
   font-weight: 700;
-  border-color: var(--accent-color);
+  border-color: #306;
 }
 
 .service-details .services-list a:hover {
-  border-color: var(--accent-color);
+  border-color: #306;
 }
 
 .service-details .services-img {
@@ -2448,7 +2448,7 @@ section,
 .service-details ul i {
   font-size: 20px;
   margin-right: 8px;
-  color: var(--accent-color);
+  color: #306;
 }
 
 /*--------------------------------------------------------------
@@ -2508,7 +2508,7 @@ section,
 }
 
 .portfolio-details .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--accent-color);
+  background-color: #306;
 }
 
 .portfolio-details .portfolio-info h3 {
@@ -2525,7 +2525,7 @@ section,
   display: block;
   width: 50px;
   height: 3px;
-  background: var(--accent-color);
+  background: #306;
   left: 0;
   bottom: 0;
 }
@@ -2551,14 +2551,14 @@ section,
 
 .portfolio-details .portfolio-info .btn-visit {
   padding: 8px 40px;
-  background: var(--accent-color);
+  background: #306;
   color: var(--contrast-color);
   border-radius: 50px;
   transition: 0.3s;
 }
 
 .portfolio-details .portfolio-info .btn-visit:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  background: color-mix(in srgb, #306, transparent 20%);
 }
 
 .portfolio-details .portfolio-description h2 {
@@ -2601,7 +2601,7 @@ section,
 
 .portfolio-details .portfolio-description .testimonial-item .quote-icon-left,
 .portfolio-details .portfolio-description .testimonial-item .quote-icon-right {
-  color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  color: color-mix(in srgb, #306, transparent 50%);
   font-size: 26px;
   line-height: 0;
 }
@@ -2679,7 +2679,7 @@ section,
 }
 
 .search-widget form button {
-  background: var(--accent-color);
+  background: #306;
   color: var(--contrast-color);
   position: absolute;
   top: 0;
@@ -2699,7 +2699,7 @@ section,
 }
 
 .search-widget form button:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  background: color-mix(in srgb, #306, transparent 20%);
 }
 
 .categories-widget ul {
@@ -2722,7 +2722,7 @@ section,
 }
 
 .categories-widget ul a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .categories-widget ul a span {
@@ -2757,7 +2757,7 @@ section,
 }
 
 .recent-posts-widget .post-item h4 a:hover {
-  color: var(--accent-color);
+  color: #306;
 }
 
 .recent-posts-widget .post-item time {
@@ -2792,9 +2792,9 @@ section,
 }
 
 .tags-widget ul a:hover {
-  background: var(--accent-color);
+  background: #306;
   color: var(--contrast-color);
-  border: 1px solid var(--accent-color);
+  border: 1px solid #306;
 }
 
 .tags-widget ul a span {
