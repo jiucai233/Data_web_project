@@ -133,9 +133,12 @@ function saveSurvey() {
         if (response.ok) {
             console.log('Survey data saved successfully.');
             alert("Survey data saved successfully！");
+            window.location.href = '/';
         } 
         else {
             console.error('Failed to save survey data.');
+            alert("You have not logged in! Please log in first.");
+            window.location.href = '/';
         }
     })
     .catch(error => {

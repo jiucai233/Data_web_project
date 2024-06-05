@@ -124,9 +124,8 @@ def login():
         islogin = 0
         if user:
             session['username'] = username
-            flash('You were successfully logged in')
             islogin = 1
-            return render_template('login.html',islogin=islogin)
+            return render_template('index.html',islogin=islogin)
             
         else:
             return render_template('login.html', message="The username or password is incorrect!")
@@ -174,7 +173,7 @@ def survey():
         survey_data = request.json
         survey_name = survey_data['survey_name']
         survey_lan = survey_data['survey_lan']
-        user_id = session["username",None]
+        user_id = session["username"]
         ques_id=1
 
         # Connect to SQLite database

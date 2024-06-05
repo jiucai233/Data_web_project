@@ -16,6 +16,7 @@ document.getElementById('questionnaire-form').addEventListener('submit', functio
     .then(data => {
         alert('Submission successful!');
         console.log(data);
+        window.location.href = '/';
     })
     .catch(error => {
         console.error('Error:', error);
