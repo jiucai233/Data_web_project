@@ -2,9 +2,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/survey.css') }}">
+    <link href="{{  url_for('static',filename='assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{  url_for('static',filename='assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+    <link href="{{  url_for('static',filename='assets/vendor/aos/aos.css')}}" rel="stylesheet">
+    <link href="{{  url_for('static',filename='assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+    <link href="{{  url_for('static',filename='assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <link href="{{  url_for('static',filename='assets/img/favicon.png')}}" rel="icon">
+    <link href="{{  url_for('static',filename='assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{  url_for('static',filename='assets/css/main.css')}}" rel="stylesheet">
     <title>{{ survey.survey_name }}</title>
 </head>
 <body>
+    {% include 'navigation_bar.html' %}
     <h1>{{ survey.survey_name }}</h1> <!-- survey_name -->
     <p>Language: {{ survey.survey_lan }}</p> <!-- survey_lan -->
     <p>Author: {{ survey.user_id }}</p> <!-- user_name -->
@@ -17,7 +27,7 @@
                 <h3>{{ question[1] }}</h3>
                 {% for selection in selections %}
             <div>
-                {% if selection[2] == 'radio' %}
+                {% if selection[2] == 'radio' %}        
                     <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
                     <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
                 {% elif selection[2] == 'checkbox' %}
@@ -28,7 +38,7 @@
         {% endfor %}
             </div>
         {% endfor %}
-        <button type="submit">Submit</button>
+        <button type="submit" class="green_button">Submit</button>
     </form>
 
     <a href="/">Back to home</a>

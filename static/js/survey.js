@@ -68,6 +68,7 @@ function addOption(button, type) {
         newOption.style.display = 'block'; // Make sure the choice will be a block
         newOption.style.marginBottom = '10px'; // Add the space
         optionsContainer.appendChild(newOption);
+        console.log("add");
     }
 }
 
@@ -90,7 +91,7 @@ function saveSurvey() {
         const questionContent = question.querySelector('textarea').value;
         const options = [];
         const optionElements = question.querySelectorAll('.options > div');
-
+    
         for (const optionElement of optionElements) {
             // 获取选项的内容
             const input = optionElement.querySelector('input');
@@ -98,7 +99,7 @@ function saveSurvey() {
             const editableDiv = optionElement.querySelector('div[contenteditable="true"]');
             let content = '';
             let type = '';
-
+    
             if (input) {
                 content = input.type === 'text' ? input.value : '';
                 type = input.type === 'text' ? 'text' : 'choice';
@@ -107,21 +108,25 @@ function saveSurvey() {
                 type = 'paragraph';
             } else if (editableDiv) {
                 content = editableDiv.textContent || ''; // 避免空指针异常
-                type = 'choice';
+                type = 'choice'; // 设置默认类型为 'choice'
+            } else {
+                // 如果没有匹配的条件，直接跳过当前选项
+                continue;
             }
-
+            
+    
             options.push({
                 content: content,
                 type: type
             });
         }
-
+        console.log(options)
         surveyData.questions.push({
             ques_content: questionContent,
             options: options
         });
     }
-
+    
     fetch('/survey', {
         method: 'POST',
         headers: {
