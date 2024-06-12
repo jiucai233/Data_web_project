@@ -26,16 +26,22 @@
             <div>
                 <h3>{{ question[1] }}</h3>
                 {% for selection in selections %}
-            <div>
-                {% if selection[2] == 'radio' %}        
-                    <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
-                    <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                {% elif selection[2] == 'checkbox' %}
-                    <input type="checkbox" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
-                    <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                {% endif %}
-            </div>
-        {% endfor %}
+                    <div>
+                        {% if selection[2] == 'single' %}        
+                            <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
+                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                        {% elif selection[2] == 'multiple' %}
+                            <input type="checkbox" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
+                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                        {% elif selection[2] == 'text' %}
+                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                            <input type="text" id="selection{{ selection[0] }}" name="question{{ question[0] }}" placeholder="Enter your answer">
+                        {% elif selection[2] == 'paragraph' %}
+                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
+                            <textarea id="selection{{ selection[0] }}" name="question{{ question[0] }}" placeholder="Enter your answer"></textarea>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         {% endfor %}
         <button type="submit" class="green_button">Submit</button>

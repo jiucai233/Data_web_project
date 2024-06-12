@@ -91,42 +91,43 @@ function saveSurvey() {
         const questionContent = question.querySelector('textarea').value;
         const options = [];
         const optionElements = question.querySelectorAll('.options > div');
-    
+
         for (const optionElement of optionElements) {
-            // 获取选项的内容
-            const input = optionElement.querySelector('input');
+            const input = optionElement.querySelector('input[type="text"]');
             const textarea = optionElement.querySelector('textarea');
-            const editableDiv = optionElement.querySelector('div[contenteditable="true"]');
+            const checkbox = optionElement.querySelector('input[type="checkbox"]');
+            const radio = optionElement.querySelector('input[type="radio"]');
             let content = '';
             let type = '';
-    
-            if (input) {
-                content = input.type === 'text' ? input.value : '';
-                type = input.type === 'text' ? 'text' : 'choice';
+
+            if (input && !radio && !checkbox) {
+                content = input.value;
+                type = 'text';
             } else if (textarea) {
                 content = textarea.value;
                 type = 'paragraph';
-            } else if (editableDiv) {
-                content = editableDiv.textContent || ''; // 避免空指针异常
-                type = 'choice'; // 设置默认类型为 'choice'
+            } else if (checkbox) {
+                content = input ? input.value : '';
+                type = 'multiple';
+            } else if (radio) {
+                content = input ? input.value : '';
+                type = 'single';
             } else {
-                // 如果没有匹配的条件，直接跳过当前选项
                 continue;
             }
-            
-    
+
             options.push({
                 content: content,
                 type: type
             });
         }
-        console.log(options)
+
         surveyData.questions.push({
             ques_content: questionContent,
             options: options
         });
     }
-    
+
     fetch('/survey', {
         method: 'POST',
         headers: {
@@ -139,8 +140,7 @@ function saveSurvey() {
             console.log('Survey data saved successfully.');
             alert("Survey data saved successfully！");
             window.location.href = '/';
-        } 
-        else {
+        } else {
             console.error('Failed to save survey data.');
             alert("You have not logged in! Please log in first.");
             window.location.href = '/';
