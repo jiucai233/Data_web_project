@@ -21,24 +21,24 @@
 
     <h2>Questions:</h2>
     <form id="questionnaire-form">
-        <input type="hidden" name="survey_id" value="{{ survey[0] }}">
+        <input type="hidden" name="survey_id" value="{{ survey.survey_id }}">
         {% for question, selections in question_details %}
             <div>
-                <h3>{{ question[1] }}</h3>
+                <h3>{{ question.ques_content }}</h3>
                 {% for selection in selections %}
                     <div>
-                        {% if selection[2] == 'single' %}        
-                            <input type="radio" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
-                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                        {% elif selection[2] == 'multiple' %}
-                            <input type="checkbox" id="selection{{ selection[0] }}" name="question{{ question[0] }}" value="{{ selection[0] }}">
-                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                        {% elif selection[2] == 'text' %}
-                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                            <input type="text" id="selection{{ selection[0] }}" name="question{{ question[0] }}" placeholder="Enter your answer">
-                        {% elif selection[2] == 'paragraph' %}
-                            <label for="selection{{ selection[0] }}">{{ selection[1] }}</label>
-                            <textarea id="selection{{ selection[0] }}" name="question{{ question[0] }}" placeholder="Enter your answer"></textarea>
+                        {% if selection.type == 'single' %}        
+                            <input type="radio" id="selection{{ selection.sel_id }}" name="question{{ question.ques_id }}" value="{{ selection.sel_id }}">
+                            <label for="selection{{ selection.sel_id }}">{{ selection.content }}</label>
+                        {% elif selection.type == 'multiple' %}
+                            <input type="checkbox" id="selection{{ selection.sel_id }}" name="question{{ question.ques_id }}" value="{{ selection.sel_id }}">
+                            <label for="selection{{ selection.sel_id }}">{{ selection.content }}</label>
+                        {% elif selection.type == 'text' %}
+                            <label for="selection{{ selection.sel_id }}">{{ selection.content }}</label>
+                            <input type="text" id="selection{{ selection.sel_id }}" name="question{{ question.ques_id }}" placeholder="Enter your answer">
+                        {% elif selection.type == 'paragraph' %}
+                            <label for="selection{{ selection.sel_id }}">{{ selection.content }}</label>
+                            <textarea id="selection{{ selection.sel_id }}" name="question{{ question.ques_id }}" placeholder="Enter your answer"></textarea>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -49,6 +49,6 @@
 
     <a href="/">Back to home</a>
 
-    <script src="{{ url_for('static', filename='js/questionnaire_detail.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/submit_survey.js') }}"></script>
 </body>
 </html>

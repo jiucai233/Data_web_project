@@ -72,19 +72,50 @@ def questionnaire_detail(id):
     else:
         return "Questionnaire not found", 404
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    data = request.json
-    conn = get_db()
-    cursor = conn.cursor()
-    for key, value in data.items():
-        if key != 'survey_id':  # Skip survey_id as it's not a question
-            ques_id = int(key.replace('question', ''))
-            cursor.execute('INSERT INTO result (survey_id, ques_id, ques_result) VALUES (?, ?, ?)', (data['survey_id'], ques_id, value))
-    conn.commit()
-    response = jsonify({"status": "success"})
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-    return response
+@app.route('/submit_survey', methods=['POST'])
+def submit_survey():
+    try:
+        data = request.json
+        survey_id = data.get('survey_id')
+
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM result WHERE survey_id = ? ORDER BY result_id DESC LIMIT 1;", (survey_id,))
+        row = cursor.fetchone()
+        if row:
+            result_id = row[3] + 1  # 获取最后一个 result_id，并加一
+        else:
+            result_id = 1  # 如果没有记录，则从 1 开始
+
+        for question_key, answers in data.items():
+            if question_key == 'survey_id':
+                continue
+
+            question_id = question_key.replace('question', '')
+
+            if isinstance(answers, list):
+                # Handle multiple selections
+                for answer in answers:
+                    cursor.execute('INSERT INTO result (survey_id, ques_id, result, result_id) VALUES (?, ?, ?, ?)', 
+                                   (survey_id, question_id, answer, result_id))
+            else:
+                # Handle single selection or text
+                cursor.execute('INSERT INTO result (survey_id, ques_id, result, result_id) VALUES (?, ?, ?, ?)', 
+                               (survey_id, question_id, answers, result_id))
+        
+        conn.commit()
+        return jsonify({'message': 'Survey submitted successfully!'})
+    
+    except Exception as e:
+        print(f"Error saving survey results: {e}")
+        conn.rollback()
+        return jsonify({'error': 'Error saving survey results'}), 500
+    
+    finally:
+        conn.close()
+
+
 
 @app.route('/download_results/<int:survey_id>')
 def download_results(survey_id):
