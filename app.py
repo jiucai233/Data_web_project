@@ -26,19 +26,18 @@ def initialize_answer_list(rows, cols):
     return [['0' for _ in range(cols)] for _ in range(rows)]
 
 # Correctly merge result_list into answer_list
-def correct_merge(result_list):
+def correct_merge(result_list,selection_list):
     # 确定 answer_list 的尺寸
-    max_row = max(row for _, row, _ in result_list)
+    max_row = len(selection_list)
     max_col = max(col for _, _, col in result_list)
+    min_selection = min(sel_id for _,sel_id,_ in result_list)
     
     # 初始化 answer_list
     answer_list = initialize_answer_list(max_row, max_col)
 
     # 使用 result_list 更新 answer_list
     for value, row, col in result_list:
-        answer_list[row-1][col-1] = value
-
-
+        answer_list[row - min_selection][col-1] = value
     return answer_list
 
 
@@ -173,39 +172,45 @@ def download_results(survey_id):
     # Fetch selection_list
     cursor = conn.execute('SELECT content, ques_id, sel_id FROM selection WHERE survey_id = ? ORDER BY sel_id ASC', (survey_id,))
     selection_list = list(cursor.fetchall())
+    print(selection_list)
 
     # Fetch result_list
     cursor = conn.execute('SELECT result, sel_id, result_id FROM result WHERE survey_id = ? ORDER BY result_id, ques_id DESC', (survey_id,))
     result_list = list(cursor.fetchall())
+    print(result_list)
 
-    final_answer_list = correct_merge(result_list)
-    max_col = max(col for _, _, col in result_list)
-    answer_list = ['question_content','selection_content']
-    for i in range(max_col):
-        answer_list.append(f'answer{i+1}')
-    print(answer_list)
-    # 在每个子列表的开头添加 selection_content
-    for i in range(len(final_answer_list)):
-        selection_content = selection_list[i][0]  # 获取 selection_content
-        cursor = conn.execute('SELECT ques_content FROM question WHERE ques_id = ?', (selection_list[i][1],))
-        ques_content = cursor.fetchone()  # 获取 ques_content
-        final_answer_list[i].insert(0, ques_content[0])
-        final_answer_list[i].insert(1, selection_content)
-    final_answer_list.insert(0,answer_list)
-
+    if result_list:
+        final_answer_list = correct_merge(result_list,selection_list)
+        print(final_answer_list)
+        max_col = max(col for _, _, col in result_list)
+        answer_list = ['question_content','selection_content']
+        for i in range(max_col):
+            answer_list.append(f'answer{i+1}')
+        # 在每个子列表的开头添加 selection_content
+        for i in range(len(final_answer_list)):
+            selection_content = selection_list[i][0]  # 获取 selection_content
+            cursor = conn.execute('SELECT ques_content FROM question WHERE ques_id = ?', (selection_list[i][1],))
+            ques_content = cursor.fetchone()  # 获取 ques_content
+            final_answer_list[i].insert(0, ques_content[0])
+            final_answer_list[i].insert(1, selection_content)
+        final_answer_list.insert(0,answer_list)
+        conn.close()
     # Create a CSV file in memory
-    output = io.StringIO()
-    writer = csv.writer(output)
-    for row in final_answer_list:
-        writer.writerow(row)
+        output = io.StringIO()
+        writer = csv.writer(output)
+        for row in final_answer_list:
+            writer.writerow(row)
 
-    output.seek(0)
-    return send_file(
-        io.BytesIO(output.getvalue().encode('utf-8')),
-        mimetype='text/csv; charset=utf-8',
-        as_attachment=True,
-        download_name=f'survey_{survey_id}_results.csv'
-    )
+        output.seek(0)
+        return send_file(
+            io.BytesIO(output.getvalue().encode('utf-8')),
+            mimetype='text/csv; charset=utf-8',
+            as_attachment=True,
+            download_name=f'survey_{survey_id}_results.csv'
+        )
+    else:
+        flash('No results available for this survey.')
+        return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])

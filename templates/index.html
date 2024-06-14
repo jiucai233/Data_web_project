@@ -42,6 +42,13 @@
 
   <main class="main">
     {% include 'navigation_bar.html' %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script type="text/javascript">
+                alert("{{ messages[0] }}");
+            </script>
+        {% endif %}
+    {% endwith %}
     <!-- Hero Section -->
     <section id="hero" class="hero section">
 
