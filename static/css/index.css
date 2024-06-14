@@ -53,3 +53,10 @@ h1{
 .questionnaire{
     display: block;
 }
+.shadow-input {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; /* 添加阴影 */
+    padding: 10px; /* 添加一些内边距使其看起来更好 */
+    border-radius: 4px; /* 圆角边框 */
+    border: 1px solid #ccc; /* 边框颜色 */
+    font-size: 15px; /* 字体大小 */
+  }
