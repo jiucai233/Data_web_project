@@ -14,7 +14,6 @@ function addQuestion() {
                 <button type="button" class="blue_button" onclick="addOption(this, 'paragraph')">Paragraph</button>
                 <button type="button" class="blue_button" onclick="addOption(this, 'multiple')">Multiple Choice</button>
                 <button type="button" class="blue_button" onclick="addOption(this, 'single')">Single Choice</button>
-                <button type="button" class="blue_button" onclick="addOption(this, 'ranking')">Ranking</button>
             </div>
         </div>
     `;
@@ -56,10 +55,6 @@ function addOption(button, type) {
         case 'single':
             newOption = document.createElement('div');
             newOption.innerHTML = '<input type="radio" name="single-choice"> <input type="text" class="shadow-input" placeholder="Click to edit the single-choice" style="display:inline-block;" oninput="adjustWidth(this)"> <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
-            break;
-        case 'ranking':
-            newOption = document.createElement('div');
-            newOption.innerHTML = 'Ranking <button class="button-82-pushable" role="button" onclick="removeOption(this)"><span class="button-82-shadow"></span><span class="button-82-edge"></span><span class="button-82-front text">delete</span></button>';
             break;
         default:
             break;

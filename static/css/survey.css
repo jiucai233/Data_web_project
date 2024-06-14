@@ -12,8 +12,11 @@ body {
 
 #editor {
     padding: 20px;
+    margin-top: 10%; /* 调整此值以匹配导航栏的高度 */
+    width: 1000px;
     background-color: #fff;
     border-radius: 5px;
+    overflow-y: auto; /* 添加垂直滚动条 */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
