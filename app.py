@@ -20,6 +20,27 @@ def get_survey():
     survey = cursor.fetchall()
     conn.close()
     return survey
+# Initialize answer_list function
+def initialize_answer_list(rows, cols):
+    """Initialize a nested list with specified dimensions."""
+    return [['0' for _ in range(cols)] for _ in range(rows)]
+
+# Correctly merge result_list into answer_list
+def correct_merge(result_list,selection_list):
+    # 确定 answer_list 的尺寸
+    max_row = len(selection_list)
+    max_col = max(col for _, _, col in result_list)
+    min_selection = min(sel_id for _,sel_id,_ in result_list)
+    
+    # 初始化 answer_list
+    answer_list = initialize_answer_list(max_row, max_col)
+
+    # 使用 result_list 更新 answer_list
+    for value, row, col in result_list:
+        answer_list[row - min_selection][col-1] = value
+    return answer_list
+
+
 
 
 def get_db():
@@ -78,9 +99,11 @@ def submit_survey():
         data = request.json
         survey_id = data.get('survey_id')
 
-        conn = sqlite3.connect(db_path)
+        # 连接到 SQLite 数据库
+        conn = sqlite3.connect('user.db')
         cursor = conn.cursor()
 
+        # 查询给定 survey_id 的最后一个 result_id，如果没有记录则从 1 开始
         cursor.execute("SELECT * FROM result WHERE survey_id = ? ORDER BY result_id DESC LIMIT 1;", (survey_id,))
         row = cursor.fetchone()
         if row:
@@ -88,22 +111,46 @@ def submit_survey():
         else:
             result_id = 1  # 如果没有记录，则从 1 开始
 
-        for question_key, answers in data.items():
+        # 处理 data 中的每个问题及其答案
+        for question_key, answer in data.items():
             if question_key == 'survey_id':
                 continue
-
-            question_id = question_key.replace('question', '')
-
-            if isinstance(answers, list):
-                # Handle multiple selections
-                for answer in answers:
-                    cursor.execute('INSERT INTO result (survey_id, ques_id, result, result_id) VALUES (?, ?, ?, ?)', 
-                                   (survey_id, question_id, answer, result_id))
-            else:
-                # Handle single selection or text
-                cursor.execute('INSERT INTO result (survey_id, ques_id, result, result_id) VALUES (?, ?, ?, ?)', 
-                               (survey_id, question_id, answers, result_id))
-        
+            
+            if question_key.startswith('question'):
+                if '_' in question_key:
+                    question_id = int(question_key.split('_')[0].replace('question', ''))
+                else:
+                    question_id = int(question_key.replace('question', ''))
+                
+                sel_id_key = f'sel_id_question{question_id}'
+                sel_id = data.get(sel_id_key)
+                
+                if sel_id is None:
+                    sel_id = answer
+                    answer = 1
+                
+                if isinstance(answer, list):
+                    result = {}
+                    for i in range(len(answer)):
+                        if answer[i] not in result:
+                            result[answer[i]] = sel_id[i]
+                        elif isinstance(result[answer[i]], list):
+                            result[answer[i]].append(sel_id[i])
+                        else:
+                            result[answer[i]] = [result[answer[i]], sel_id[i]]
+                    
+                    for answer_single, sel_id_single in result.items():
+                        if isinstance(sel_id_single, list):
+                            for sel_id_item in sel_id_single:
+                                cursor.execute('INSERT INTO result (survey_id, ques_id, sel_id, result, result_id) VALUES (?, ?, ?, ?, ?)',
+                                            (survey_id, question_id, sel_id_item, answer_single, result_id))
+                        else:
+                            cursor.execute('INSERT INTO result (survey_id, ques_id, sel_id, result, result_id) VALUES (?, ?, ?, ?, ?)',
+                                        (survey_id, question_id, sel_id_single, answer_single, result_id))
+                else:
+                    cursor.execute('INSERT INTO result (survey_id, ques_id, sel_id, result, result_id) VALUES (?, ?, ?, ?, ?)',
+                                (survey_id, question_id, sel_id, answer, result_id))
+        # 提交更改并关闭连接
         conn.commit()
         return jsonify({'message': 'Survey submitted successfully!'})
     
@@ -114,34 +161,57 @@ def submit_survey():
     
     finally:
         conn.close()
+    
 
 
 
 @app.route('/download_results/<int:survey_id>')
 def download_results(survey_id):
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT question.ques_content, selection.content AS selected_option
-        FROM result
-        JOIN question ON result.ques_id = question.ques_id
-        JOIN selection ON result.ques_result = selection.sel_id
-        WHERE result.survey_id = ?
-    ''', (survey_id,))
-    results = cursor.fetchall()
 
+    # Fetch selection_list
+    cursor = conn.execute('SELECT content, ques_id, sel_id FROM selection WHERE survey_id = ? ORDER BY sel_id ASC', (survey_id,))
+    selection_list = list(cursor.fetchall())
+    print(selection_list)
+
+    # Fetch result_list
+    cursor = conn.execute('SELECT result, sel_id, result_id FROM result WHERE survey_id = ? ORDER BY result_id, ques_id DESC', (survey_id,))
+    result_list = list(cursor.fetchall())
+    print(result_list)
+
+    if result_list:
+        final_answer_list = correct_merge(result_list,selection_list)
+        print(final_answer_list)
+        max_col = max(col for _, _, col in result_list)
+        answer_list = ['question_content','selection_content']
+        for i in range(max_col):
+            answer_list.append(f'answer{i+1}')
+        # 在每个子列表的开头添加 selection_content
+        for i in range(len(final_answer_list)):
+            selection_content = selection_list[i][0]  # 获取 selection_content
+            cursor = conn.execute('SELECT ques_content FROM question WHERE ques_id = ?', (selection_list[i][1],))
+            ques_content = cursor.fetchone()  # 获取 ques_content
+            final_answer_list[i].insert(0, ques_content[0])
+            final_answer_list[i].insert(1, selection_content)
+        final_answer_list.insert(0,answer_list)
+        conn.close()
     # Create a CSV file in memory
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(['Question', 'Selected Option'])
-    for row in results:
-        writer.writerow(row)
+        output = io.StringIO()
+        writer = csv.writer(output)
+        for row in final_answer_list:
+            writer.writerow(row)
 
-    output.seek(0)
-    response = send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv; charset=utf-8', as_attachment=True, download_name=f'survey_{survey_id}_results.csv')
-    response.headers['Content-Disposition'] = f'attachment; filename=survey_{survey_id}_results.csv'
-    response.headers['Content-Type'] = 'text/csv; charset=utf-8'
-    return response
+        output.seek(0)
+        return send_file(
+            io.BytesIO(output.getvalue().encode('utf-8')),
+            mimetype='text/csv; charset=utf-8',
+            as_attachment=True,
+            download_name=f'survey_{survey_id}_results.csv'
+        )
+    else:
+        flash('No results available for this survey.')
+        return render_template('index.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
